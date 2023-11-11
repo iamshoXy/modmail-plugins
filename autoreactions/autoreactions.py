@@ -25,7 +25,6 @@ class AutoReactions(commands.Cog):
             async for message in channel.history(limit=1, oldest_first=True):
                 if message.id == payload.message_id:
                     channelName = f'{str(payload.emoji)}-{channel.name}'
-                    print(channelName)
                     await channel.edit(name=channelName)
 
     @commands.Cog.listener()
@@ -34,14 +33,14 @@ class AutoReactions(commands.Cog):
             return
         
         guild = self.bot.get_guild(payload.guild_id)
-        print(guild)
+        if guild is None:
+            return
+        
         member = get(guild.members, id=payload.user_id)
-        print(member)
         if member is None or member.bot:
             return
         
         channel = self.bot.get_channel(payload.channel_id)
-        print(channel)
         if channel is None:
             return
 
