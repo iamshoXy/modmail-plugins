@@ -12,16 +12,12 @@ class AutoReactions(commands.Cog):
     async def on_raw_reaction_add(self, payload):
         if payload.guild_id is None:
             return
-    
-        guild = await self.bot.fetch_guild(payload.guild_id)
-        print(guild)
+
         member = payload.member
-        print(member)
         if member is None or member.bot:
             return
         
         channel = self.bot.get_channel(payload.channel_id)
-        print(channel)
         if channel is None:
             return
 
@@ -37,13 +33,15 @@ class AutoReactions(commands.Cog):
         if payload.guild_id is None:
             return
         
-        guild = await self.bot.fetch_guild(payload.guild_id)
+        guild = self.bot.get_channel(payload.guild_id)
+        print(guild)
         member = get(guild.members, id=payload.user_id)
-
+        print(member)
         if member is None or member.bot:
             return
         
         channel = self.bot.get_channel(payload.channel_id)
+        print(channel)
         if channel is None:
             return
 
