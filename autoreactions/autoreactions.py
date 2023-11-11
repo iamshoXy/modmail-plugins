@@ -17,12 +17,15 @@ class AutoReactions(commands.Cog):
         if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
             async for message in channel.history(limit=1, oldest_first=True):
                 if message.id == payload.message_id:
-                    channelName = payload.emoji + "-" + channel.name
+                    channelName = f'{str(payload.emoji)}-{channel.name}'
                     await channel.edit(name=channelName)
 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload):
-        if payload.member.bot:
+        guild = await self.bot.fetch_guild(payload.guild_id)
+        member = guild.get_member(payload.user_id)
+
+        if member.bot:
             return
         
         channel = self.bot.get_channel(payload.channel_id)
@@ -30,7 +33,7 @@ class AutoReactions(commands.Cog):
         if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
             async for message in channel.history(limit=1, oldest_first=True):  
                 if message.id == payload.message_id:
-                    channelName = channel.name.replace(payload.emoji, '').strip()
+                    channelName = channel.name.replace(str(payload.emoji), '').strip()
                     await channel.edit(name=channelName)
 
 async def setup(bot):
