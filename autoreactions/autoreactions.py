@@ -9,7 +9,12 @@ class AutoReactions(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
+        print(payload)
+        if payload.guild_id is None:
+            return
+    
         guild = await self.bot.fetch_guild(payload.guild_id)
+
         member = guild.get_member(payload.user_id)
 
         if member is None or member.bot:
@@ -27,6 +32,9 @@ class AutoReactions(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload):
+        if payload.guild_id is None:
+            return
+        
         guild = await self.bot.fetch_guild(payload.guild_id)
         member = guild.get_member(payload.user_id)
 
