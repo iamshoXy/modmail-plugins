@@ -23,7 +23,7 @@ class AutoReactions(commands.Cog):
             return
 
         if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
-            message = await self.bot.fetch_message(payload.message_id)
+            message = await channel.fetch_message(payload.message_id)
             if message is None:
                 return
             
@@ -54,7 +54,7 @@ class AutoReactions(commands.Cog):
             return
 
         if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
-            message = await self.bot.fetch_message(payload.message_id)
+            message = await channel.fetch_message(payload.message_id)
             if message is None:
                 return
             
