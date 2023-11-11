@@ -13,5 +13,5 @@ class AutoReactions(commands.Cog):
         messages = await reaction_channel.history(limit=1, oldest_first=True)
         print(messages)
 
-def setup(bot):
-    bot.add_cog(AutoReactions(bot))
+async def setup(bot):
+    await bot.add_cog(AutoReactions(bot))
