@@ -13,7 +13,9 @@ class AutoReactions(commands.Cog):
 
         if isinstance(reaction_channel, discord.TextChannel) and reaction_channel.category_id == int(self.bot.config["main_category_id"]):
             async for message in reaction_channel.history(limit=1, oldest_first=True):  
-                print(message)
+                if message.id == reaction.message.id:
+                    channelName = reaction.emoji + "-" + reaction_channel.name
+                    reaction_channel.edit(name=channelName)
 
 async def setup(bot):
     await bot.add_cog(AutoReactions(bot))
