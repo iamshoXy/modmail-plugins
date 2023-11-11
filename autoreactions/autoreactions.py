@@ -28,7 +28,7 @@ class AutoReactions(commands.Cog):
             if message is None:
                 return
 
-            if message.author.id != '1070726122192523385':
+            if message.author.id != 1070726122192523385:
                 return
             
             channelName = f'{str(payload.emoji)}-{channel.name}'
@@ -59,7 +59,7 @@ class AutoReactions(commands.Cog):
             if message is None:
                 return
             
-            if message.author.id != '1070726122192523385':
+            if message.author.id != 1070726122192523385:
                 return
             
             channelName = channel.name.replace(str(payload.emoji), '').strip()
