@@ -9,17 +9,22 @@ class AutoReactions(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
+        if user.bot:
+            return
+        
         reaction_channel = reaction.message.channel
 
         if isinstance(reaction_channel, discord.TextChannel) and reaction_channel.category_id == int(self.bot.config["main_category_id"]):
             async for message in reaction_channel.history(limit=1, oldest_first=True):
                 if message.id == reaction.message.id:
                     channelName = reaction.emoji + "-" + reaction_channel.name
-                    print(channelName)
                     await reaction_channel.edit(name=channelName)
 
     @commands.Cog.listener()
     async def on_reaction_remove(self, reaction, user):
+        if user.bot:
+            return
+        
         reaction_channel = reaction.message.channel
 
         if isinstance(reaction_channel, discord.TextChannel) and reaction_channel.category_id == int(self.bot.config["main_category_id"]):
