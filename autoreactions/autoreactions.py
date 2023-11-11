@@ -23,11 +23,14 @@ class AutoReactions(commands.Cog):
         channel = self.bot.get_channel(payload.channel_id)
         if channel is None:
             return
+        
+        print(channel)
 
         if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
             async for message in channel.history(limit=1, oldest_first=True):
                 if message.id == payload.message_id:
                     channelName = f'{str(payload.emoji)}-{channel.name}'
+                    print(channelName)
                     await channel.edit(name=channelName)
 
     @commands.Cog.listener()
