@@ -9,7 +9,10 @@ class AutoReactions(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        if payload.member.bot:
+        guild = await self.bot.fetch_guild(payload.guild_id)
+        member = guild.get_member(payload.user_id)
+
+        if member is None or member.bot:
             return
         
         channel = self.bot.get_channel(payload.channel_id)
