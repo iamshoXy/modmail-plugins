@@ -8,6 +8,9 @@ class AutoReactions(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
+        if str(payload.emoji) != '✅':
+            return
+        
         if payload.guild_id is None:
             return
 
@@ -27,6 +30,9 @@ class AutoReactions(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_remove(self, payload):
+        if str(payload.emoji) != '✅':
+            return
+        
         if payload.guild_id is None:
             return
         
