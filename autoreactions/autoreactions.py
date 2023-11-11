@@ -33,7 +33,7 @@ class AutoReactions(commands.Cog):
         if payload.guild_id is None:
             return
         
-        guild = self.bot.get_channel(payload.guild_id)
+        guild = self.bot.get_guild(payload.guild_id)
         print(guild)
         member = get(guild.members, id=payload.user_id)
         print(member)
