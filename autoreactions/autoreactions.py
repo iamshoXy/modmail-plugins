@@ -12,8 +12,8 @@ class AutoReactions(commands.Cog):
         reaction_channel = reaction.message.channel
 
         if isinstance(reaction_channel, discord.TextChannel) and reaction_channel.category_id == int(self.bot.config["main_category_id"]):
-            messages = await reaction_channel.history(limit=1, oldest_first=True)
-            print(messages)
+            async for message in reaction_channel.history(limit=1, oldest_first=True):  
+                print(message)
 
 async def setup(bot):
     await bot.add_cog(AutoReactions(bot))
