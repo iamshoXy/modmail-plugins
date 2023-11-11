@@ -15,7 +15,7 @@ class AutoReactions(commands.Cog):
     
         guild = await self.bot.fetch_guild(payload.guild_id)
         print(guild)
-        member = get(guild.members, id=payload.user_id)
+        member = payload.member
         print(member)
         if member is None or member.bot:
             return
