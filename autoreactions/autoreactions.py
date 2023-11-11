@@ -24,9 +24,10 @@ class AutoReactions(commands.Cog):
 
         if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
             message = await channel.fetch_message(payload.message_id)
+            print(message)
             if message is None:
                 return
-            
+
             if message.author.id != '1070726122192523385':
                 return
             
