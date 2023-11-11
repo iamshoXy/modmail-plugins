@@ -8,30 +8,30 @@ class AutoReactions(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_reaction_add(self, reaction, user):
-        if user.bot:
+    async def on_raw_reaction_add(self, payload):
+        if payload.member.bot:
             return
         
-        reaction_channel = reaction.message.channel
+        channel = await self.get_channel(payload.channel_id)
 
-        if isinstance(reaction_channel, discord.TextChannel) and reaction_channel.category_id == int(self.bot.config["main_category_id"]):
-            async for message in reaction_channel.history(limit=1, oldest_first=True):
-                if message.id == reaction.message.id:
-                    channelName = reaction.emoji + "-" + reaction_channel.name
-                    await reaction_channel.edit(name=channelName)
+        if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
+            async for message in channel.history(limit=1, oldest_first=True):
+                if message.id == payload.message_id:
+                    channelName = payload.emoji + "-" + channel.name
+                    await channel.edit(name=channelName)
 
     @commands.Cog.listener()
-    async def on_reaction_remove(self, reaction, user):
-        if user.bot:
+    async def on_raw_reaction_remove(self, payload):
+        if payload.member.bot:
             return
         
-        reaction_channel = reaction.message.channel
+        channel = await self.get_channel(payload.channel_id)
 
-        if isinstance(reaction_channel, discord.TextChannel) and reaction_channel.category_id == int(self.bot.config["main_category_id"]):
-            async for message in reaction_channel.history(limit=1, oldest_first=True):  
-                if message.id == reaction.message.id:
-                    channelName = reaction_channel.name.replace(reaction.emoji, '').strip()
-                    await reaction_channel.edit(name=channelName)
+        if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
+            async for message in channel.history(limit=1, oldest_first=True):  
+                if message.id == payload.message_id:
+                    channelName = channel.name.replace(payload.emoji, '').strip()
+                    await channel.edit(name=channelName)
 
 async def setup(bot):
     await bot.add_cog(AutoReactions(bot))
