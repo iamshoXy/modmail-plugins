@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.utils import get
 
 from core import checks
 
@@ -14,7 +15,7 @@ class AutoReactions(commands.Cog):
     
         guild = await self.bot.fetch_guild(payload.guild_id)
         print(guild)
-        member = guild.get_member(payload.user_id)
+        member = get(guild.members, id=payload.user_id)
         print(member)
         if member is None or member.bot:
             return
@@ -37,7 +38,7 @@ class AutoReactions(commands.Cog):
             return
         
         guild = await self.bot.fetch_guild(payload.guild_id)
-        member = guild.get_member(payload.user_id)
+        member = get(guild.members, id=payload.user_id)
 
         if member is None or member.bot:
             return
