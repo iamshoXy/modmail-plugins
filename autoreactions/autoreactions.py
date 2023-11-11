@@ -13,6 +13,8 @@ class AutoReactions(commands.Cog):
             return
         
         channel = self.bot.get_channel(payload.channel_id)
+        if channel is None:
+            return
 
         if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
             async for message in channel.history(limit=1, oldest_first=True):
@@ -25,10 +27,12 @@ class AutoReactions(commands.Cog):
         guild = await self.bot.fetch_guild(payload.guild_id)
         member = guild.get_member(payload.user_id)
 
-        if member.bot:
+        if member is None or member.bot:
             return
         
         channel = self.bot.get_channel(payload.channel_id)
+        if channel is None:
+            return
 
         if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
             async for message in channel.history(limit=1, oldest_first=True):  
