@@ -12,7 +12,7 @@ class AutoReactions(commands.Cog):
         if payload.member.bot:
             return
         
-        channel = await self.get_channel(payload.channel_id)
+        channel = await self.bot.get_channel(payload.channel_id)
 
         if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
             async for message in channel.history(limit=1, oldest_first=True):
@@ -25,7 +25,7 @@ class AutoReactions(commands.Cog):
         if payload.member.bot:
             return
         
-        channel = await self.get_channel(payload.channel_id)
+        channel = await self.bot.get_channel(payload.channel_id)
 
         if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
             async for message in channel.history(limit=1, oldest_first=True):  
