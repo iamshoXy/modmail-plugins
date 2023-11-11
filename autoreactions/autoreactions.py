@@ -9,22 +9,20 @@ class AutoReactions(commands.Cog):
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        print(payload)
         if payload.guild_id is None:
             return
     
         guild = await self.bot.fetch_guild(payload.guild_id)
-
+        print(guild)
         member = guild.get_member(payload.user_id)
-
+        print(member)
         if member is None or member.bot:
             return
         
         channel = self.bot.get_channel(payload.channel_id)
+        print(channel)
         if channel is None:
             return
-        
-        print(channel)
 
         if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
             async for message in channel.history(limit=1, oldest_first=True):
