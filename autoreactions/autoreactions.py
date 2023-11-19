@@ -1,14 +1,16 @@
 import discord
+import emoji
 from discord.ext import commands
 from discord.utils import get
 
 class AutoReactions(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.allowed_emojis = ['✅', '✍️']
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
-        if str(payload.emoji) != '✅':
+        if str(payload.emoji) not in self.allowed_emojis:
             return
         
         if payload.guild_id is None:
@@ -24,46 +26,21 @@ class AutoReactions(commands.Cog):
 
         if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
             message = await channel.fetch_message(payload.message_id)
-            print(message)
+            
             if message is None:
                 return
 
-            if message.author.id != 1042164354612736091:
+            if message.author.id != self.bot.user.id:
                 return
             
-            channelName = f'{str(payload.emoji)}-{channel.name}'
-            await channel.edit(name=channelName)
+            currentChannelName = channel.name
+            
+            isEmoji = emoji.emoji_count(currentChannelName)
+            if isEmoji > 0:
+                currentChannelName = emoji.replace_emoji(currentChannelName, replace = '')
 
-    @commands.Cog.listener()
-    async def on_raw_reaction_remove(self, payload):
-        if str(payload.emoji) != '✅':
-            return
-        
-        if payload.guild_id is None:
-            return
-        
-        guild = self.bot.get_guild(payload.guild_id)
-        if guild is None:
-            return
-        
-        member = get(guild.members, id=payload.user_id)
-        if member is None or member.bot:
-            return
-        
-        channel = self.bot.get_channel(payload.channel_id)
-        if channel is None:
-            return
-
-        if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
-            message = await channel.fetch_message(payload.message_id)
-            if message is None:
-                return
-            
-            if message.author.id != 1042164354612736091:
-                return
-            
-            channelName = channel.name.replace(str(payload.emoji), '').strip()
-            await channel.edit(name=channelName)
+            newChannelName = f'{str(payload.emoji)}-{currentChannelName}'
+            await channel.edit(name=newChannelName)
 
 async def setup(bot):
     await bot.add_cog(AutoReactions(bot))
