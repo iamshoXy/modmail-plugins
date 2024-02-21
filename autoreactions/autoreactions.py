@@ -6,7 +6,7 @@ from discord.utils import get
 class AutoReactions(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.allowed_emojis = ['✅', '✍️', '⌛']
+        self.allowed_emojis = ['✅', '✍️', '✍🏻', '✍🏼', '✍🏽', '✍🏾', '✍🏿', '⌛']
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
