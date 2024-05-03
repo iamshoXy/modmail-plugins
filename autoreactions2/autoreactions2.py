@@ -7,6 +7,8 @@ class AutoReactions(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.allowed_emojis = ['📩', '✍️', '✍🏻', '✍🏼', '✍🏽', '✍🏾', '✍🏿', '✅']
+        self.category_ids = [1209561516668616816, 1209572825539809330, 1209572841104605214,
+                             1209572855025762344, 1209572869382742016, 1209572883974586468]
 
     @commands.Cog.listener()
     async def on_raw_reaction_add(self, payload):
@@ -24,7 +26,7 @@ class AutoReactions(commands.Cog):
         if channel is None:
             return
 
-        if isinstance(channel, discord.TextChannel) and channel.category_id == int(self.bot.config["main_category_id"]):
+        if isinstance(channel, discord.TextChannel) and channel.category_id in self.category_ids:
             message = await channel.fetch_message(payload.message_id)
             
             if message is None:
