@@ -19,7 +19,7 @@ class AutoReactions(commands.Cog):
             return
 
         member = payload.member
-        if member is None or member.user.id == self.bot.user.id:
+        if member is None:
             return
         
         channel = self.bot.get_channel(payload.channel_id)
