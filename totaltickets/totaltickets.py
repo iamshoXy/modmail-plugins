@@ -13,7 +13,7 @@ class TotalTickets(commands.Cog):
 
     @checks.has_permissions(PermissionLevel.ADMINISTRATOR)
     @commands.command()
-    async def topsupporters(self, ctx, *, dt: UserFriendlyTime):
+    async def totaltickets(self, ctx, *, dt: UserFriendlyTime):
         """Sum total amount of tickets between the specified time period"""
         async with ctx.typing():
             date = discord.utils.utcnow() - (dt.dt - discord.utils.utcnow())
